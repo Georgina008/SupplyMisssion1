@@ -1,7 +1,8 @@
 
-
 var helicopterIMG, helicopterSprite, packageSprite,packageIMG;
-var packageBody,ground
+var packageBody,ground;
+var line1, line2, line3
+
 const Engine = Matter.Engine;
 const World = Matter.World;
 const Bodies = Matter.Bodies;
@@ -9,14 +10,22 @@ const Body = Matter.Body;
 
 function preload()
 {
-	helicopterIMG=loadImage("helicopter.png")
-	packageIMG=loadImage("package.png")
+	helicopterIMG=loadImage("helicopter.png");
+	packageIMG=loadImage("package.png");
 }
 
 function setup() {
 	createCanvas(800, 700);
 	rectMode(CENTER);
 	
+	line1 = createSprite(320,615,15,100)
+	line1.shapeColor=color(255,0,0)
+
+	line2 = createSprite(480,615,15,100)
+	line2.shapeColor=color(255,0,0)
+
+	line3 = createSprite(400,655,150,15)
+	line3.shapeColor=color(255,0,0)
 
 	packageSprite=createSprite(width/2, 80, 10,10);
 	packageSprite.addImage(packageIMG)
@@ -33,7 +42,7 @@ function setup() {
 	engine = Engine.create();
 	world = engine.world;
 
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
+	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution: 0.4, isStatic:true});
 	World.add(world, packageBody);
 	
 
@@ -52,17 +61,23 @@ function draw() {
   background(0);
   packageSprite.x= packageBody.position.x 
   packageSprite.y= packageBody.position.y 
+
+  packageSprite.collide(line1);
+  packageSprite.collide(line2);
+  packageSprite.collide(line3);
+  
   drawSprites();
  
 }
 
 function keyPressed() {
  if (keyCode === DOWN_ARROW) {
-
-    Matter.Body.setStatic(packageBody, false);
+	Matter.Body.setStatic(packageBody,false);
     
   }
 }
+
+
 
 
 
